@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_map"
+        android:icon="@drawable/map_icon"
+        android:title="@string/explorar"
+
+        />
+
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/desafios_icon"
+        android:title="@string/desafios" />
+
+    <item
+        android:id="@+id/navigation_notifications"
+        android:icon="@drawable/notification_icon"
+        android:title="@string/notificaciones" />
+
+</menu>

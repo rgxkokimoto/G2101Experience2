@@ -1,0 +1,61 @@
+<resources>
+    <string name="web_client_id">820104310218-plap8uunrm8rar4fng4vs0ff7n2ekhu5.apps.googleusercontent.com</string>
+    <string name="app_name">g2Int101Experience</string>
+    <string name="registrarse">Registrarse</string>
+    <string name="correo">Correo</string>
+    <string name="ya_tienes_una_cuenta">¿Ya tienes una cuenta?</string>
+    <string name="inicia_sesi_n">¡Inicia Sesión!</string>
+    <string name="inicia_conGoogle">Inicia con Google:</string>
+    <string name="contrase_a">Contraseña</string>
+    <string name="introduzca_su_correo_electr_nico">Introduzca su correo electrónico</string>
+    <string name="correo_no_valido_revise_los_datos">Correo no valido revise los datos</string>
+    <string name="recordarme_al_entrar_en_la_app">Recordarme al entrar en la app</string>
+    <string name="iniciar_sesi_n">Iniciar Sesión</string>
+    <string name="correo_no_encontrado_revise_los_datos">Correo no encontrado revise los datos</string>
+    <string name="introduzca_su_contrase_a">Introduzca su contraseña</string>
+    <string name="contrsse_a_no_encontrada_revise_los_datos">Contraseña no encontrada revise los datos</string>
+    <string name="no_tienes_una_cuenta">¿No tienes una cuenta?</string>
+    <string name="registrate">¡Registrate!</string>
+    <string name="inicia_sesi_n_btn">Inicia Sesión</string>
+    <string name="contrsse_a_no_valida_revise_los_datos">Contraseña no valida revise los datos</string>
+    <string name="el_correo_electr_nico_no_puede_estar_vacio">El correo electrónico no puede estar vacio</string>
+    <string name="la_contrase_a_no_puede_estar_vacia">La contraseña no puede estar vacia</string>
+    <string name="title_activity_prub_button_navigation">PrubButtonNavigation</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="ir_a_dasboard_sub1">Ir a dasboard sub1</string>
+    <string name="cargando_texto_en_fragmento_dashboard_sub_2">Cargando texto en fragmento Dashboard sub 2</string>
+    <string name="cargando_texto_en_el_fragmento_de_sub1">Cargando texto en el fragmento de sub1</string>
+    <string name="ir_a_dashboard_sub_2">Ir a dashboard sub 2</string>
+    <string name="explorar">Explorar</string>
+    <string name="desafios">Desafios</string>
+    <string name="notificaciones">Notificaciones</string>
+    <string name="encuentra_ntus_retos">Encuentra\ntus Retos</string>
+    <string name="listado_de_nexperiencias">Listado de \nExperiencias</string>
+    <string name="contrase_a_no_v_lida">Contraseña no válida</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="info_desafio">El Museo de las Ilusiones de Madrid ofrece experiencias visuales, sensoriales y educativas que desafían la percepción, con exhibiciones interactivas para todas las edades.</string>
+    <string name="titulo_desafio">2. Museo De Las Ilusiones</string>
+    <string name="titulo_informacion_desafio">Información</string>
+    <string name="info_estado_desafio">Completar</string>
+    <string name="titulo_menu_ajustes">Menú de Ajustes</string>
+    <string name="apodo_usuario_ajustes">Jorge</string>
+    <string name="nombre_usuario_ajustes">\@JorgeSal55</string>
+    <string name="gestionar_cuenta_ajustes">Gestionar Cuenta</string>
+    <string name="cambiar_idioma_ajustes">Cambiar Idioma</string>
+    <string name="borrar_cuenta_ajustes">Borrar Cuenta</string>
+    <string name="terminos_y_condiciones_ajustes">Términos y Condiciones</string>
+    <string name="terminos_condiciones_texto">Al utilizar esta aplicación, usted acepta los siguientes términos y condiciones. La aplicación se ofrece como un servicio para mejorar la experiencia de nuestros usuarios, y está sujeta a cambios sin previo aviso. No nos hacemos responsables de los daños o perjuicios derivados del uso indebido de la misma. El usuario se compromete a utilizar la aplicación de manera ética y legal, y se compromete a no realizar acciones que puedan dañar el sistema, robar datos o causar cualquier tipo de inconveniente a otros usuarios. Está prohibido el uso de la aplicación para fines comerciales sin el consentimiento expreso de los administradores. La aplicación puede recopilar ciertos datos personales, pero estos serán manejados de acuerdo con nuestra política de privacidad, la cual también debe ser aceptada por el usuario. El uso continuado de la aplicación implica la aceptación de estas condiciones, que pueden ser modificadas en cualquier momento. Si no está de acuerdo con los términos, se le recomienda que deje de utilizar la aplicación inmediatamente. Al mismo tiempo si usted es un profesor de la Universidad Europea de Madrid (Campus Alcobendas), se compromete a aprovar a los alumnos del G2 del Proyecto Integrador con un 10 en todas las asignaturas que les imparte.</string>
+    <string name="titulo_terminos_condiciones">Términos y Condiciones</string>
+    <string name="titulo_gestionar_cuenta">Gestionar Cuenta</string>
+    <string name="cambiar_correo_gestion">Cambiar Correo</string>
+    <string name="cambiar_contrasenia_gestion">Cambiar Contraseña</string>
+    <string name="cambiar_nombre_usuario_gestion">Cambiar Nombre de Usuario</string>
+    <string name="cambiar_apodo_gestion">Cambiar Apodo</string>
+    <string name="aceptar_gestion">Aceptar</string>
+    <string name="cancelar_gestion">Cancelar</string>
+</resources>

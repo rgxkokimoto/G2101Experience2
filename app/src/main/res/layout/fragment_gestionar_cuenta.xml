@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#D9D9D9"
+    tools:context=".GestionarCuentaFragment">
+
+    <TextView
+        android:id="@+id/tvGestionCuenta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="25dp"
+        android:text="@string/titulo_gestionar_cuenta"
+        android:textColor="#000000"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/tvCambiarCorreo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="100dp"
+        android:text="@string/cambiar_correo_gestion"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_gravity="start"
+        android:padding="10dp"/>
+
+    <EditText
+        android:id="@+id/etNuevoCorreo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="140dp"
+        android:layout_marginEnd="16dp"
+        android:inputType="textEmailAddress"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/tvCambiarContraseña"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="200dp"
+        android:text="@string/cambiar_contrasenia_gestion"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_gravity="start"
+        android:padding="10dp"/>
+
+    <EditText
+        android:id="@+id/etNuevaContraseña"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="240dp"
+        android:layout_marginEnd="16dp"
+        android:inputType="textPassword"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/tvCambiarNombreUsuario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="300dp"
+        android:text="@string/cambiar_nombre_usuario_gestion"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_gravity="start"
+        android:padding="10dp"/>
+
+    <EditText
+        android:id="@+id/etNuevoNombreUsuario"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="340dp"
+        android:layout_marginEnd="16dp"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/tvCambiarApodo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="400dp"
+        android:text="@string/cambiar_apodo_gestion"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_gravity="start"
+        android:padding="10dp"/>
+
+    <EditText
+        android:id="@+id/etNuevoApodo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="440dp"
+        android:layout_marginEnd="16dp"
+        android:textSize="18sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="600dp"
+        android:gravity="center"
+        android:padding="16dp">
+
+        <Button
+            android:id="@+id/btnAceptar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/aceptar_gestion"
+            android:textColor="#000000"
+            android:backgroundTint="@color/principal"
+            android:textSize="16sp"
+            android:layout_marginEnd="28dp" />
+
+        <Button
+            android:id="@+id/btnCancelar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/cancelar_gestion"
+            android:textColor="#000000"
+            android:backgroundTint="@color/principal"
+            android:textSize="16sp"
+            android:layout_marginStart="8dp"
+            android:onClick="cancelar"/>
+    </LinearLayout>
+
+</FrameLayout>

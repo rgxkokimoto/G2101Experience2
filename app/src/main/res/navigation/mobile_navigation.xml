@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_home">
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.example.g2int101experience.ui.home.HomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_navigation_home_to_listadoDeExperiencias"
+            app:destination="@id/listadoDeExperiencias" />
+    </fragment>
+
+<!--    Fragmento con metodo 2 conectado por UI soporta animaciones-->
+    <fragment
+        android:id="@+id/navigation_map"
+        android:name="com.example.g2int101experience.ui.mapa.Mapa"
+        android:label="@string/title_dashboard"
+        tools:layout="@layout/fragment_mapa" >
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_notifications"
+        android:name="com.example.g2int101experience.ui.notifications.NotificationsFragment"
+        android:label="@string/title_notifications"
+        tools:layout="@layout/fragment_notifications" />
+    <fragment
+        android:id="@+id/listadoDeExperiencias"
+        android:name="com.example.g2int101experience.ui.listadoexperiencias.ListadoDeExperienciasFragment"
+        android:label="fragment_listado_de_experiencias"
+        tools:layout="@layout/fragment_listado_de_experiencias" >
+        <action
+            android:id="@+id/action_listadoDeExperiencias_to_experienciaDetalleFragment"
+            app:destination="@id/experienciaDetalleFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/experienciaDetalleFragment"
+        android:name="com.example.g2int101experience.ui.detalle.DetalleExperienciaFragment"
+        android:label="fragment_experiencia_detalle"
+        tools:layout="@layout/fragment_detalle_experiencia" />
+
+</navigation>

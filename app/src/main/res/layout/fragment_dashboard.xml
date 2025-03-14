@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.dashboard.DashboardFragment">
+
+    <TextView
+        android:id="@+id/tvTituloDashBoardMain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Fragmento principal del Dashboard"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:padding="16dp"
+        />
+
+    <Button
+        android:id="@+id/btnGoToASub1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/ir_a_dasboard_sub1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:padding="15dp"
+        android:layout_marginBottom="120dp"
+        />
+
+    <Button
+        android:id="@+id/btnCambiarTexto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        android:text="Cambiar texto dinamicamente"
+        app:layout_constraintBottom_toTopOf="@+id/btnGoToASub1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

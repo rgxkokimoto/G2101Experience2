@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.dashboard.DashboardSub1Fragment"
+    android:padding="16dp">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:id="@+id/tvDashboardSub1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/cargando_texto_en_el_fragmento_de_sub1"
+        android:textAlignment="center"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnGotoDashboardSub2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/ir_a_dashboard_sub_2"
+        app:layout_constraintBottom_toBottomOf="@+id/tvDashboardSub1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginBottom="80dp"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
