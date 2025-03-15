@@ -18,12 +18,14 @@ import com.example.g2int101experience.databinding.FragmentListadoDeExperienciasB
 import com.example.g2int101experience.models.Experiencia;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class ListadoDeExperienciasFragment extends Fragment implements ListadoDeExperienciasAdapter.OnItemClickListener {
 
     private FragmentListadoDeExperienciasBinding binding;
     private ListadoDeExperienciasAdapter adapter;
     private ListadoDeExperienciasViewModel model;
+
 
     @Nullable
     @Override
@@ -37,6 +39,18 @@ public class ListadoDeExperienciasFragment extends Fragment implements ListadoDe
         super.onViewCreated(view, savedInstanceState);
         model = new ViewModelProvider(this).get(ListadoDeExperienciasViewModel.class);
 
+        /*
+         *  Recogemos el Bundle con el nombre del desafio del anterior fragmento
+         */
+        if (getArguments() != null && getArguments().containsKey("nombreDesafio")) {
+            String nombreDesafioSeleccionado = getArguments().getString("nombreDesafio", "");
+
+            binding.tvTituloListadoExperiencias.setText(nombreDesafioSeleccionado);
+
+            // Cargar experiencias inmediatamente si tenemos el nombre
+            model.cargarExperienciasPorDesafio(nombreDesafioSeleccionado);
+        }
+
         if(binding != null) {
             RecyclerView recyclerView = binding.rvListaExperiencias;
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
@@ -44,13 +58,28 @@ public class ListadoDeExperienciasFragment extends Fragment implements ListadoDe
             recyclerView.setAdapter(adapter);
 
             model.getExperienciaLiveData().observe(getViewLifecycleOwner(), this::cargarExperiencias);
-            model.cargarExperiencias();
         }
+
+
+        /*getParentFragmentManager().setFragmentResultListener("datosDesafioParaExperiencias", this,
+                new FragmentResultListener() {
+                    @Override
+                    public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+                        nombreDesafioSeleccionado = result.getString("nombreDesafio", "");
+
+                        if (binding.tvTituloListadoExperiencias != null) {
+                            binding.tvTituloListadoExperiencias.setText(nombreDesafioSeleccionado);
+                        }
+
+                        model.cargarExperienciasPorDesafio(nombreDesafioSeleccionado);
+                    }
+                }); */
+
     }
 
     @Override
     public void onItemClick(int position, int mode) {
-        Experiencia experiencia = model.getExperienciaLiveData().getValue().get(position);
+        Experiencia experiencia = Objects.requireNonNull(model.getExperienciaLiveData().getValue()).get(position);
         Bundle bundle = new Bundle();
         bundle.putString("id", String.valueOf(experiencia.getId()));
         Navigation.findNavController(requireView()).navigate(R.id.action_listadoDeExperiencias_to_experienciaDetalleFragment, bundle);
