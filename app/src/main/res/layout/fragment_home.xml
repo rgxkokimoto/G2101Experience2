@@ -12,8 +12,9 @@
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:contentDescription="TODO"
-        android:src="@drawable/encuentra_tus_retos"
+        android:layout_marginTop="15dp"
+        android:contentDescription="@string/todo"
+        android:src="@drawable/encuentra_tus_desafios"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -42,7 +43,7 @@ En condiciones donde hay más desplazamientos unmo un cardview.
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Mis Retos"
+                android:text="Mis Desafios"
                 android:textColor="@color/principal"
                 android:textSize="25sp"
                 android:textStyle="bold"
