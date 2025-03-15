@@ -32,7 +32,7 @@ public class ListadoDeExperienciasViewModel extends ViewModel {
         return experienciaLiveData;
     }
 
-    // Método para cargar experiencias por nombre de desafío
+    // Método para cargar experiencias por con todos los desafios
     /*public void cargarExperiencias() {
 
         refExperiencias.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -68,17 +68,19 @@ public class ListadoDeExperienciasViewModel extends ViewModel {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 ArrayList<Experiencia> experienciaList = new ArrayList<>();
-                String nombre;
-                String imagen;
+                String id;
+                String titulo;
+                String imgURL;
                 String desafioExperiencia;
 
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     desafioExperiencia = dataSnapshot.child("desafio").getValue(String.class);
 
                     if (desafioExperiencia != null && desafioExperiencia.equals(nombreDesafioSeleccionado)) {
-                        nombre = dataSnapshot.child("nombre").getValue(String.class);
-                        imagen = dataSnapshot.child("img").getValue(String.class);
-                        experienciaList.add(new Experiencia(nombre, imagen));
+                        id = dataSnapshot.child("id").getValue(String.class);
+                        titulo = dataSnapshot.child("nombre").getValue(String.class);
+                        imgURL = dataSnapshot.child("img").getValue(String.class);
+                        experienciaList.add(new Experiencia(titulo, imgURL, id));
                     }
                 }
 

@@ -19,6 +19,14 @@ public class Experiencia {
         this.id = id;
     }
 
+    // Cambio hecho por Alejandro Necesario para la correcta carga de datos en una experiencia
+    public Experiencia(String titulo, String imgUlr, String descripcion, String id) {
+        this.titulo = titulo;
+        this.imgUlr = imgUlr;
+        this.descripcion = descripcion;
+        this.id = id;
+    }
+
     public String getId() {
         return id;
     }

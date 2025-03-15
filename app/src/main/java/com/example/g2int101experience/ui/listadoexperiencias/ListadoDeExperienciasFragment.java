@@ -47,7 +47,6 @@ public class ListadoDeExperienciasFragment extends Fragment implements ListadoDe
 
             binding.tvTituloListadoExperiencias.setText(nombreDesafioSeleccionado);
 
-            // Cargar experiencias inmediatamente si tenemos el nombre
             model.cargarExperienciasPorDesafio(nombreDesafioSeleccionado);
         }
 
@@ -60,7 +59,7 @@ public class ListadoDeExperienciasFragment extends Fragment implements ListadoDe
             model.getExperienciaLiveData().observe(getViewLifecycleOwner(), this::cargarExperiencias);
         }
 
-
+        // Otra forma de recibir datos del anterior fragmento
         /*getParentFragmentManager().setFragmentResultListener("datosDesafioParaExperiencias", this,
                 new FragmentResultListener() {
                     @Override
@@ -81,7 +80,7 @@ public class ListadoDeExperienciasFragment extends Fragment implements ListadoDe
     public void onItemClick(int position, int mode) {
         Experiencia experiencia = Objects.requireNonNull(model.getExperienciaLiveData().getValue()).get(position);
         Bundle bundle = new Bundle();
-        bundle.putString("id", String.valueOf(experiencia.getId()));
+        bundle.putString("id", experiencia.getId());
         Navigation.findNavController(requireView()).navigate(R.id.action_listadoDeExperiencias_to_experienciaDetalleFragment, bundle);
     }
 
