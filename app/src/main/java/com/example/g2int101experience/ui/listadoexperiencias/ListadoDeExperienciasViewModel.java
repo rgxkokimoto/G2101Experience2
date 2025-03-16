@@ -63,7 +63,6 @@ public class ListadoDeExperienciasViewModel extends ViewModel {
 
 
     public void cargarExperienciasPorDesafio(String nombreDesafioSeleccionado) {
-
         refExperiencias.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -72,6 +71,7 @@ public class ListadoDeExperienciasViewModel extends ViewModel {
                 String titulo;
                 String imgURL;
                 String desafioExperiencia;
+                Boolean completada;
 
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     desafioExperiencia = dataSnapshot.child("desafio").getValue(String.class);
@@ -80,7 +80,13 @@ public class ListadoDeExperienciasViewModel extends ViewModel {
                         id = dataSnapshot.child("id").getValue(String.class);
                         titulo = dataSnapshot.child("nombre").getValue(String.class);
                         imgURL = dataSnapshot.child("img").getValue(String.class);
-                        experienciaList.add(new Experiencia(titulo, imgURL, id));
+                        completada = dataSnapshot.child("completada").getValue(Boolean.class);
+
+                        Experiencia exp = new Experiencia(titulo, imgURL, id);
+                        if (completada != null && completada) {
+                            exp.setCompletada(true);
+                        }
+                        experienciaList.add(exp);
                     }
                 }
 
@@ -90,6 +96,9 @@ public class ListadoDeExperienciasViewModel extends ViewModel {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {}
         });
+    }
 
+    public void completarDesafio(String idExp) {
+        refExperiencias.child(idExp).child("completada").setValue(true);
     }
 }

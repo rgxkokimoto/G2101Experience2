@@ -1,14 +1,18 @@
 package com.example.g2int101experience.ui.detalle;
 
+
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.g2int101experience.R;
 import com.google.firebase.database.DataSnapshot;
@@ -18,9 +22,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.util.Objects;
+
 public class DetalleExperienciaFragment extends Fragment {
 
     private static final String ARG_EXPERIENCIA_ID = "id";
+    private DatabaseReference databaseReference;
     private String id;
 
     // En el contexto en el que estamos y la extrcutura que seguimos este método es inecesario.
@@ -39,6 +46,7 @@ public class DetalleExperienciaFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             id = getArguments().getString(ARG_EXPERIENCIA_ID);
+            databaseReference = FirebaseDatabase.getInstance().getReference("Experiencias");
         }
     }
 
@@ -54,8 +62,63 @@ public class DetalleExperienciaFragment extends Fragment {
         TextView tvTitulo = view.findViewById(R.id.tvTitulo);
         ImageView ivExpr = view.findViewById(R.id.ivImagenExperiencia);
         TextView tVdescripcion = view.findViewById(R.id.tvDescripcion);
+        Button btnEstadoExp = view.findViewById(R.id.btnEstadoDesafio);
+
+        comprobarEstadoExp(btnEstadoExp);
 
         cargarDatosExperiencia(tvTitulo, ivExpr, tVdescripcion);
+    }
+
+    private void comprobarEstadoExp(Button btnEstadoExp) {
+        if (id != null && !id.isEmpty()) {
+            // Referencia directa a la experiencia
+            DatabaseReference expRef = databaseReference.child(id);
+
+            expRef.child("completada").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    Boolean completada = dataSnapshot.getValue(Boolean.class);
+
+                    if (completada != null && completada) {
+                        btnEstadoExp.setEnabled(false);
+                        btnEstadoExp.setText("Completada");
+                        btnEstadoExp.setAlpha(0.5f);
+
+                    } else {
+                        btnEstadoExp.setOnClickListener(v -> marcarComoCompletada());
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    // En caso de error, configurar botón por defecto
+                    Toast.makeText(getContext(), "Error al verificar estado: " + error.getMessage(),
+                            Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            btnEstadoExp.setVisibility(View.GONE);
+        }
+    }
+
+    private void marcarComoCompletada() {
+
+        DatabaseReference expRef = databaseReference.child(id);
+
+        expRef.child("completada").setValue(true)
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(getContext(), "¡Experiencia completada!", Toast.LENGTH_SHORT).show();
+
+                    Button btnEstadoExp = requireView().findViewById(R.id.btnEstadoDesafio);
+                    btnEstadoExp.setEnabled(false);
+                    btnEstadoExp.setText("Completada");
+                    btnEstadoExp.setAlpha(0.5f);
+
+                })
+                .addOnFailureListener(e -> Toast.makeText(getContext(), "Error al completar: " + e.getMessage(),
+                        Toast.LENGTH_SHORT).show());
+
+
     }
 
     private void cargarDatosExperiencia(TextView tvTitulo, ImageView ivExpr, TextView tVdescripcion) {
@@ -80,16 +143,13 @@ public class DetalleExperienciaFragment extends Fragment {
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-                    mostrarErrorDatos(tvTitulo, tVdescripcion, "Error al cargar datos: " + error.getMessage());
+                    Toast.makeText(getContext(), "Error al cargar datos: " + error.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
         } else {
-            mostrarErrorDatos(tvTitulo, tVdescripcion, "ID no válido");
+            Toast.makeText(getContext(), "ID de experiencia no válido", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void mostrarErrorDatos(TextView titulo, TextView descripcion, String mensaje) {
-        titulo.setText(mensaje);
-        descripcion.setText("");
-    }
+
 }

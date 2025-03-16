@@ -79,13 +79,23 @@ public class ListadoDeExperienciasFragment extends Fragment implements ListadoDe
     @Override
     public void onItemClick(int position, int mode) {
         Experiencia experiencia = Objects.requireNonNull(model.getExperienciaLiveData().getValue()).get(position);
-        Bundle bundle = new Bundle();
-        bundle.putString("id", experiencia.getId());
-        Navigation.findNavController(requireView()).navigate(R.id.action_listadoDeExperiencias_to_experienciaDetalleFragment, bundle);
+
+        if (mode == 0) {
+            Bundle bundle = new Bundle();
+            bundle.putString("id", experiencia.getId());
+            Navigation.findNavController(requireView()).navigate(R.id.action_listadoDeExperiencias_to_experienciaDetalleFragment, bundle);
+        }
+        else if (mode == 1) {
+            model.completarDesafio(experiencia.getId());
+            experiencia.setCompletada(true);
+            adapter.notifyItemChanged(position);
+        }
     }
 
-    private void cargarExperiencias(ArrayList<Experiencia> experiencias) {
-        adapter.setExperienciaList(experiencias);
+
+
+    private void cargarExperiencias(ArrayList<Experiencia> experienciaList) {
+        adapter.setExperienciaList(experienciaList);
     }
 
     @Override

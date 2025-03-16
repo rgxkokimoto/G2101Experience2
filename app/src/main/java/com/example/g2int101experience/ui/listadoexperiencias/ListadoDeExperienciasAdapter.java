@@ -44,12 +44,31 @@ public class ListadoDeExperienciasAdapter extends RecyclerView.Adapter<ListadoDe
                     .placeholder(R.drawable.ic_launcher_background)
                     .into(holder.binding.imgImagenExperiencia);
 
-            // Controlador del botón "Ver más"
+            if (experiencia.isCompletada()) {
+                holder.binding.recyclerItemLayout.setBackgroundColor(
+                        holder.itemView.getContext().getResources().getColor(R.color.verde_completado)
+                );
+
+                holder.binding.btnCompletarDesafio.setEnabled(false);
+            } else {
+                holder.binding.recyclerItemLayout.setBackgroundColor(
+                        android.graphics.Color.TRANSPARENT
+                );
+                holder.binding.btnCompletarDesafio.setEnabled(true);
+            }
+
             holder.binding.btnVerMas.setOnClickListener(v -> {
                 if (listener != null) {
                     listener.onItemClick(position, 0);
                 }
             });
+
+            holder.binding.btnCompletarDesafio.setOnClickListener(v -> {
+                if (listener != null) {
+                    listener.onItemClick(position, 1);
+                }
+            });
+
         }
     }
 

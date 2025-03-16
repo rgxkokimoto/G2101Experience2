@@ -1,9 +1,10 @@
 package com.example.g2int101experience.models;
 
 public class Experiencia {
-    String titulo , imgUlr;
+    String titulo, imgUlr;
     String descripcion;
     String id;
+    private boolean completada; // Nuevo atributo
 
     // es necesario
     public Experiencia() {}
@@ -11,20 +12,22 @@ public class Experiencia {
     public Experiencia(String titulo, String imgUlr) {
         this.titulo = titulo;
         this.imgUlr = imgUlr;
+        this.completada = false;
     }
 
     public Experiencia(String titulo, String imgUlr, String id) {
         this.titulo = titulo;
         this.imgUlr = imgUlr;
         this.id = id;
+        this.completada = false;
     }
 
-    // Cambio hecho por Alejandro Necesario para la correcta carga de datos en una experiencia
     public Experiencia(String titulo, String imgUlr, String descripcion, String id) {
         this.titulo = titulo;
         this.imgUlr = imgUlr;
         this.descripcion = descripcion;
         this.id = id;
+        this.completada = false;
     }
 
     public String getId() {
@@ -51,8 +54,16 @@ public class Experiencia {
         this.imgUlr = imgUlr;
     }
 
-
     public String getDescripcion() {
         return descripcion;
+    }
+
+    // Nuevos métodos para completada
+    public boolean isCompletada() {
+        return completada;
+    }
+
+    public void setCompletada(boolean completada) {
+        this.completada = completada;
     }
 }

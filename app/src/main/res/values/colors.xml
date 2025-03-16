@@ -8,6 +8,8 @@
 
     <color name="verde_mensaje_bien">#1fce7d</color>
 
+    <color name="verde_completado">#201FCE7D</color>
+
     <color name="rojo_label_Mal">#ce1f22</color>
     <color name="rojo_mensaje_mal">#d7494c</color>
 </resources>
