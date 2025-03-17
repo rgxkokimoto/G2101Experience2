@@ -39,6 +39,10 @@ public class ListadoDeExperienciasFragment extends Fragment implements ListadoDe
         super.onViewCreated(view, savedInstanceState);
         model = new ViewModelProvider(this).get(ListadoDeExperienciasViewModel.class);
 
+        binding.btnVolver.setOnClickListener(v ->
+                requireActivity().getSupportFragmentManager().popBackStack()
+        );
+
         /*
          *  Recogemos el Bundle con el nombre del desafio del anterior fragmento
          */

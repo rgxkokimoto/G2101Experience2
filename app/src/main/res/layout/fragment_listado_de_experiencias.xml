@@ -6,20 +6,32 @@
     android:layout_height="match_parent"
     tools:context=".ui.listadoexperiencias.ListadoDeExperienciasFragment">
 
+    <ImageButton
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="15sp"
+        android:id="@+id/btnVolver"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/principal"
+        android:src="@drawable/baseline_arrow_back_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
 
     <TextView
         android:id="@+id/tvTituloListadoExperiencias"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:padding="16dp"
         android:text="@string/listado_de_nexperiencias"
         android:textColor="@color/principal"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:padding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/btnVolver"
         app:layout_constraintTop_toTopOf="parent" />
-
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvListaExperiencias"

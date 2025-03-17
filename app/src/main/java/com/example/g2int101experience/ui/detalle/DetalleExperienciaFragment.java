@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,8 +22,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
-
-import java.util.Objects;
 
 public class DetalleExperienciaFragment extends Fragment {
 
@@ -63,6 +62,9 @@ public class DetalleExperienciaFragment extends Fragment {
         ImageView ivExpr = view.findViewById(R.id.ivImagenExperiencia);
         TextView tVdescripcion = view.findViewById(R.id.tvDescripcion);
         Button btnEstadoExp = view.findViewById(R.id.btnEstadoDesafio);
+        ImageButton btnVolver = view.findViewById(R.id.btnVolver);
+
+        btnVolver.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStack());
 
         comprobarEstadoExp(btnEstadoExp);
 

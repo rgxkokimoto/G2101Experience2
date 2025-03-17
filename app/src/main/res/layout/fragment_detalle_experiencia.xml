@@ -8,17 +8,29 @@
     android:padding="15dp"
     >
 
-    <TextView android:id="@+id/tvTitulo"
+    <ImageButton
+        android:id="@+id/btnVolver"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/principal"
+        android:src="@drawable/baseline_arrow_back_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/tvTitulo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|top"
+        android:layout_marginStart="16dp"
         android:text="Museo de las Ilusiones"
         android:textColor="#1FCE7D"
-        android:textSize="30sp"
+        android:textSize="29sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintStart_toEndOf="@+id/btnVolver"
+        app:layout_constraintTop_toTopOf="parent" />
     <!--  Recomendado imagenes de 300 x 200  -->
     <FrameLayout
         android:id="@+id/frameLayout"
