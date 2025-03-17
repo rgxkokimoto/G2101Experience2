@@ -51,18 +51,29 @@
 
             <Button
                 android:id="@+id/btnWebsite"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="Ir al sitio web"
                 android:backgroundTint="@color/principal"
-                android:layout_marginEnd="8dp"/>
+                android:layout_marginEnd="4dp"/>
+
+            <Button
+                android:id="@+id/btnClose"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Cerrar"
+                android:backgroundTint="@color/principal"
+                android:layout_marginEnd="4dp"/>
 
             <Button
                 android:id="@+id/btnShare"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/principal"
-                android:text="Compartir"/>
+                android:layout_weight="1"
+                android:text="Compartir"
+                android:backgroundTint="@color/principal"/>
         </LinearLayout>
     </LinearLayout>
 

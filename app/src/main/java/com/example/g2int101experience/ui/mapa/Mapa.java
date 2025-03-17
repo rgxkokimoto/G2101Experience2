@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,12 +26,12 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Mapa extends Fragment implements OnMapReadyCallback {
 
@@ -38,7 +39,10 @@ public class Mapa extends Fragment implements OnMapReadyCallback {
     private BottomSheetBehavior<View> bottomSheetBehavior;
     private TextView textViewDescription;
     private ImageView imageView;
-    private Button btnWebsite, btnShare;
+    private Button btnWebsite, btnClose;
+    private View bottomSheet;
+    private DatabaseReference dbRef;
+    private final Map<Marker, DataSnapshot> marcadorExperienciaMap = new HashMap<>();
 
     public Mapa() {
         // Constructor vacío requerido
@@ -55,15 +59,15 @@ public class Mapa extends Fragment implements OnMapReadyCallback {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Referencias a los elementos de la Bottom Sheet
-        View bottomSheet = view.findViewById(R.id.bottom_sheet);
+        // Inicializar elementos del Bottom Sheet
+        bottomSheet = view.findViewById(R.id.bottom_sheet);
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN); // Ocultar al inicio
 
         textViewDescription = view.findViewById(R.id.textViewDescription);
         imageView = view.findViewById(R.id.imageView);
         btnWebsite = view.findViewById(R.id.btnWebsite);
-        btnShare = view.findViewById(R.id.btnShare);
+        btnClose = view.findViewById(R.id.btnClose);
 
         // Configurar el mapa
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.fgMap);
@@ -71,15 +75,8 @@ public class Mapa extends Fragment implements OnMapReadyCallback {
             mapFragment.getMapAsync(this);
         }
 
-        // Configuración del botón de la página web
-        btnWebsite.setOnClickListener(v -> {
-            // URL de la página web que deseas abrir
-            String url = "https://www.madrid.es/portales/munimadrid/es/Inicio/El-Ayuntamiento/Parques-y-jardines/Patrimonio-Verde/Parques-en-Madrid/Parque-del-Museo-del-Prado/?vgnextfmt=default&vgnextoid=3047ee4002e2e210VgnVCM2000000c205a0aRCRD&vgnextchannel=38bb1914e7d4e210VgnVCM1000000b205a0aRCRD";
-
-            // Crear el Intent para abrir la URL
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-            startActivity(intent);  // Abrir la URL en el navegador predeterminado
-        });
+        // Botón para cerrar la pestaña
+        btnClose.setOnClickListener(v -> bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN));
     }
 
     @Override
@@ -87,44 +84,86 @@ public class Mapa extends Fragment implements OnMapReadyCallback {
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
-        // Referencia a Firebase
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Experiencias/MapaPrueba1NoBorrar");
-
-        databaseReference.get().addOnCompleteListener(task -> {
+        // Obtener datos de Firebase
+        dbRef = FirebaseDatabase.getInstance().getReference("Experiencias");
+        dbRef.get().addOnCompleteListener(task -> {
             if (task.isSuccessful() && task.getResult().exists()) {
-                DataSnapshot dataSnapshot = task.getResult();
-                String nombre = dataSnapshot.child("nombre").getValue(String.class);
-                String descripcion = dataSnapshot.child("descripcion").getValue(String.class);
-                String imgUrl = dataSnapshot.child("img").getValue(String.class);
-                double latitud = dataSnapshot.child("Latitud").getValue(Double.class);
-                double longitud = dataSnapshot.child("Longitud").getValue(Double.class);
+                DataSnapshot firstSnapshot = null;
+                LatLng firstLocation = null;
 
-                LatLng ubicacion = new LatLng(latitud, longitud);
-                Marker marker = mMap.addMarker(new MarkerOptions().position(ubicacion).title(nombre));
-                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(ubicacion, 15f);
-                mMap.moveCamera(cameraUpdate);
+                for (DataSnapshot snapshot : task.getResult().getChildren()) {
+                    String titulo = snapshot.child("nombre").getValue(String.class); // nombre
+                    Double latitud = snapshot.child("latitud").getValue(Double.class); // latitud
+                    Double longitud = snapshot.child("longitud").getValue(Double.class); // longitud
+                    String descripcion = snapshot.child("descripcion").getValue(String.class); // descripcion
+                    String imgUrl = snapshot.child("img").getValue(String.class); // img
+                    String web = snapshot.child("web").exists() ? snapshot.child("web").getValue(String.class) : null; // web
 
-                // Evento al tocar el marcador
-                mMap.setOnMarkerClickListener(marker1 -> {
-                    if (marker1.getTitle().equals(nombre)) {
-                        mostrarDetalles(descripcion, imgUrl);
+                    // Verificar si los datos son válidos
+                    if (titulo != null && latitud != null && longitud != null) {
+                        LatLng ubicacion = new LatLng(latitud, longitud);
+                        Marker marker = mMap.addMarker(new MarkerOptions().position(ubicacion).title(titulo));
+
+                        // Guardar el DataSnapshot asociado al marcador
+                        marcadorExperienciaMap.put(marker, snapshot);
+
+                        // Guardar la primera ubicación del marcador para mover la cámara
+                        if (firstLocation == null) {
+                            firstLocation = ubicacion;
+                            firstSnapshot = snapshot;
+                        }
                     }
-                    return false;
-                });
+                }
+
+                // Si encontramos la primera ubicación, centramos la cámara
+                if (firstLocation != null) {
+                    CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(firstLocation, 15f);
+                    mMap.moveCamera(cameraUpdate);
+
+                    // Mostrar detalles del primer marcador
+                    mostrarDetalles(firstSnapshot);
+                }
             }
+        });
+
+        // Manejar clic en marcadores
+        mMap.setOnMarkerClickListener(marker -> {
+            DataSnapshot snapshot = marcadorExperienciaMap.get(marker);
+            if (snapshot != null) {
+                mostrarDetalles(snapshot);
+                return true;
+            }
+            return false;
         });
     }
 
-    private void mostrarDetalles(String descripcion, String imgUrl) {
-        textViewDescription.setText(descripcion);
+    private void mostrarDetalles(DataSnapshot snapshot) {
+        String descripcion = snapshot.child("descripcion").getValue(String.class);
+        String imgUrl = snapshot.child("img").getValue(String.class);
+        String web = snapshot.child("web").exists() ? snapshot.child("web").getValue(String.class) : null;
 
-        // Cargar imagen de Firebase Storage usando Picasso
-        StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(imgUrl);
-        storageReference.getDownloadUrl().addOnSuccessListener(uri -> {
-            Picasso.get().load(uri).into(imageView);
+        textViewDescription.setText(descripcion != null ? descripcion : "Descripción no disponible");
+
+        // Cargar imagen con Picasso si hay URL
+        if (imgUrl != null && !imgUrl.isEmpty()) {
+            Picasso.get().load(imgUrl).into(imageView);
+        } else {
+            imageView.setImageResource(R.drawable.ic_launcher_background); // Imagen por defecto
+        }
+
+        // Configurar botón de la web
+        btnWebsite.setOnClickListener(v -> {
+            if (web != null && !web.isEmpty()) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(web));
+                startActivity(intent);
+            } else {
+                Toast.makeText(getContext(), "Este lugar no tiene sitio web", Toast.LENGTH_SHORT).show();
+            }
         });
 
-        // Mostrar la Bottom Sheet
-        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        // Mostrar el Bottom Sheet
+        if (bottomSheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED) {
+            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+        }
     }
 }
