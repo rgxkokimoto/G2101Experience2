@@ -37,7 +37,7 @@ public class Mapa extends Fragment implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private BottomSheetBehavior<View> bottomSheetBehavior;
-    private TextView textViewDescription;
+    private TextView textViewExperienceName, textViewDescription;
     private ImageView imageView;
     private Button btnWebsite, btnClose, btnShare;
     private View bottomSheet;
@@ -64,6 +64,7 @@ public class Mapa extends Fragment implements OnMapReadyCallback {
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN); // Ocultar al inicio
 
+        textViewExperienceName = view.findViewById(R.id.textViewExperienceName);
         textViewDescription = view.findViewById(R.id.textViewDescription);
         imageView = view.findViewById(R.id.imageView);
         btnWebsite = view.findViewById(R.id.btnWebsite);
@@ -92,16 +93,12 @@ public class Mapa extends Fragment implements OnMapReadyCallback {
         dbRef = FirebaseDatabase.getInstance().getReference("Experiencias");
         dbRef.get().addOnCompleteListener(task -> {
             if (task.isSuccessful() && task.getResult().exists()) {
-                DataSnapshot firstSnapshot = null;
                 LatLng firstLocation = null;
 
                 for (DataSnapshot snapshot : task.getResult().getChildren()) {
                     String titulo = snapshot.child("nombre").getValue(String.class); // nombre
                     Double latitud = snapshot.child("latitud").getValue(Double.class); // latitud
                     Double longitud = snapshot.child("longitud").getValue(Double.class); // longitud
-                    String descripcion = snapshot.child("descripcion").getValue(String.class); // descripcion
-                    String imgUrl = snapshot.child("img").getValue(String.class); // img
-                    String web = snapshot.child("web").exists() ? snapshot.child("web").getValue(String.class) : null; // web
 
                     // Verificar si los datos son válidos
                     if (titulo != null && latitud != null && longitud != null) {
@@ -114,7 +111,6 @@ public class Mapa extends Fragment implements OnMapReadyCallback {
                         // Guardar la primera ubicación del marcador para mover la cámara
                         if (firstLocation == null) {
                             firstLocation = ubicacion;
-                            firstSnapshot = snapshot;
                         }
                     }
                 }
@@ -139,10 +135,15 @@ public class Mapa extends Fragment implements OnMapReadyCallback {
     }
 
     private void mostrarDetalles(DataSnapshot snapshot) {
+        String nombre = snapshot.child("nombre").getValue(String.class);
         String descripcion = snapshot.child("descripcion").getValue(String.class);
         String imgUrl = snapshot.child("img").getValue(String.class);
         String web = snapshot.child("web").exists() ? snapshot.child("web").getValue(String.class) : null;
 
+        // Establecer el nombre de la experiencia
+        textViewExperienceName.setText(nombre != null ? nombre : "Experiencia sin nombre");
+
+        // Establecer la descripción
         textViewDescription.setText(descripcion != null ? descripcion : "Descripción no disponible");
 
         // Cargar imagen con Picasso
@@ -171,21 +172,16 @@ public class Mapa extends Fragment implements OnMapReadyCallback {
     // Función para compartir el contenido del Bottom Sheet
     private void compartir() {
         // Obtener el contenido a compartir
+        String nombre = textViewExperienceName.getText().toString();
         String descripcion = textViewDescription.getText().toString();
-        String urlImagen = "";
 
         // Crear el Intent para compartir
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.setType("text/plain");
 
         // Configurar el mensaje que se va a compartir
-        String mensaje = descripcion + "\n\n" + "Mira este lugar en el mapa.";
-        shareIntent.putExtra(Intent.EXTRA_TEXT, mensaje); // Establecer el texto que se compartirá
-
-        if (!urlImagen.isEmpty()) {
-            shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(urlImagen));
-            shareIntent.setType("image/*");
-        }
+        String mensaje = nombre + "\n\n" + descripcion + "\n\nMira este lugar en el mapa.";
+        shareIntent.putExtra(Intent.EXTRA_TEXT, mensaje);
 
         // Verificar si hay alguna aplicación que pueda manejar la acción de compartir
         if (shareIntent.resolveActivity(getActivity().getPackageManager()) != null) {
