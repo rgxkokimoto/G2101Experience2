@@ -53,6 +53,7 @@
         app:layout_constraintTop_toBottomOf="@+id/ivPerfil" />
 
     <ListView
+        android:id="@+id/lvDesafiosCompletados"
         android:layout_width="match_parent"
         android:layout_height="250dp"
         app:layout_constraintEnd_toEndOf="parent"
