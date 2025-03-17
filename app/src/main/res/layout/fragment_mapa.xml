@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:map="http://schemas.android.com/apk/res-auto"
@@ -7,9 +7,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="12dp"
-    tools:context=".Mapa">
+    tools:context=".ui.mapa.Mapa">
 
-    <!-- Luego lo pongo más bonito, de momento me centro en la funcionalidad del mapa -->
+    <!-- Título -->
     <TextView
         android:id="@+id/tvTitulo"
         android:layout_width="wrap_content"
@@ -21,6 +21,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
+    <!-- Fragmento del mapa -->
     <fragment
         android:id="@+id/fgMap"
         android:name="com.google.android.gms.maps.SupportMapFragment"
@@ -28,9 +29,23 @@
         android:layout_height="600dp"
         android:layout_marginTop="60dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tvTitulo"
+        app:layout_constraintTop_toBottomOf="@id/tvTitulo"
         map:cameraZoom="10"
         map:uiRotateGestures="true"
         map:uiZoomControls="true" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- Bottom Sheet -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="525dp"
+        android:background="@android:color/white"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+        app:behavior_peekHeight="0dp"
+        app:behavior_hideable="true">
+
+        <include layout="@layout/bottom_sheet_content"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
