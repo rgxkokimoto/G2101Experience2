@@ -39,7 +39,7 @@ public class Mapa extends Fragment implements OnMapReadyCallback {
     private BottomSheetBehavior<View> bottomSheetBehavior;
     private TextView textViewDescription;
     private ImageView imageView;
-    private Button btnWebsite, btnClose;
+    private Button btnWebsite, btnClose, btnShare;
     private View bottomSheet;
     private DatabaseReference dbRef;
     private final Map<Marker, DataSnapshot> marcadorExperienciaMap = new HashMap<>();
@@ -68,6 +68,7 @@ public class Mapa extends Fragment implements OnMapReadyCallback {
         imageView = view.findViewById(R.id.imageView);
         btnWebsite = view.findViewById(R.id.btnWebsite);
         btnClose = view.findViewById(R.id.btnClose);
+        btnShare = view.findViewById(R.id.btnShare);
 
         // Configurar el mapa
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.fgMap);
@@ -77,6 +78,9 @@ public class Mapa extends Fragment implements OnMapReadyCallback {
 
         // Botón para cerrar la pestaña
         btnClose.setOnClickListener(v -> bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN));
+
+        // Botón de compartir
+        btnShare.setOnClickListener(v -> compartir());
     }
 
     @Override
@@ -115,13 +119,10 @@ public class Mapa extends Fragment implements OnMapReadyCallback {
                     }
                 }
 
-                // Si encontramos la primera ubicación, centramos la cámara
+                // Si encontramos la primera ubicación, centramos la cámara pero NO mostramos el Bottom Sheet
                 if (firstLocation != null) {
                     CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(firstLocation, 15f);
                     mMap.moveCamera(cameraUpdate);
-
-                    // Mostrar detalles del primer marcador
-                    mostrarDetalles(firstSnapshot);
                 }
             }
         });
@@ -144,7 +145,7 @@ public class Mapa extends Fragment implements OnMapReadyCallback {
 
         textViewDescription.setText(descripcion != null ? descripcion : "Descripción no disponible");
 
-        // Cargar imagen con Picasso si hay URL
+        // Cargar imagen con Picasso
         if (imgUrl != null && !imgUrl.isEmpty()) {
             Picasso.get().load(imgUrl).into(imageView);
         } else {
@@ -161,9 +162,36 @@ public class Mapa extends Fragment implements OnMapReadyCallback {
             }
         });
 
-        // Mostrar el Bottom Sheet
+        // Mostrar el Bottom Sheet solo si no está visible
         if (bottomSheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED) {
             bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+        }
+    }
+
+    // Función para compartir el contenido del Bottom Sheet
+    private void compartir() {
+        // Obtener el contenido a compartir
+        String descripcion = textViewDescription.getText().toString();
+        String urlImagen = "";
+
+        // Crear el Intent para compartir
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+
+        // Configurar el mensaje que se va a compartir
+        String mensaje = descripcion + "\n\n" + "Mira este lugar en el mapa.";
+        shareIntent.putExtra(Intent.EXTRA_TEXT, mensaje); // Establecer el texto que se compartirá
+
+        if (!urlImagen.isEmpty()) {
+            shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(urlImagen));
+            shareIntent.setType("image/*");
+        }
+
+        // Verificar si hay alguna aplicación que pueda manejar la acción de compartir
+        if (shareIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+            startActivity(Intent.createChooser(shareIntent, "Compartir con"));
+        } else {
+            Toast.makeText(getContext(), "No hay aplicaciones disponibles para compartir", Toast.LENGTH_SHORT).show();
         }
     }
 }
