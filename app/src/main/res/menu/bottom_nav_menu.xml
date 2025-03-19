@@ -14,8 +14,8 @@
         android:title="@string/desafios" />
 
     <item
-        android:id="@+id/navigation_notifications"
+        android:id="@+id/navigation_perfil"
         android:icon="@drawable/notification_icon"
-        android:title="@string/notificaciones" />
+        android:title="Perfil" />
 
 </menu>
