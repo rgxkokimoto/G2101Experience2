@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -58,7 +60,30 @@ public class PerfilFragment extends Fragment {
             getActivity().finish();
         });
 
+        // Acción del botón de guardar nombre de usuario
+        binding.btnGuardarNombre.setOnClickListener(v -> saveUserName());
+
         return root;
+    }
+
+    // Método para guardar el nombre de usuario en Firebase Realtime Database
+    private void saveUserName() {
+        String userId = mAuth.getCurrentUser().getUid();
+        String userName = binding.etNombreUsuario.getText().toString().trim();  // Obtener el texto del EditText
+
+        // Verificar que el nombre no esté vacío
+        if (!userName.isEmpty()) {
+            DatabaseReference userRef = database.getReference("Users").child(userId);
+            userRef.child("nombreUsuario").setValue(userName)  // Guardamos el nombre de usuario
+                    .addOnSuccessListener(aVoid -> {
+                        Toast.makeText(getContext(), "Nombre de usuario actualizado", Toast.LENGTH_SHORT).show();
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(getContext(), "Error al guardar el nombre de usuario", Toast.LENGTH_SHORT).show();
+                    });
+        } else {
+            Toast.makeText(getContext(), "Por favor ingresa un nombre de usuario", Toast.LENGTH_SHORT).show();
+        }
     }
 
     // Cargar los datos del usuario (correo, imagen y desafíos completados)
@@ -71,9 +96,15 @@ public class PerfilFragment extends Fragment {
                 // Obtener el correo desde FirebaseAuth
                 String userEmail = mAuth.getCurrentUser().getEmail();
                 String userImageUrl = task.getResult().child("imagen").getValue(String.class);
+                String userName = task.getResult().child("nombreUsuario").getValue(String.class);
 
                 // Establecer el correo en el TextView
-                binding.tvNombreUsuario.setText(userEmail);
+                binding.tvCorreo.setText(userEmail);
+
+                // Establecer el nombre de usuario en el EditText
+                if (userName != null) {
+                    binding.etNombreUsuario.setText(userName);
+                }
 
                 // Cargar la imagen de perfil con Glide
                 if (userImageUrl != null && !userImageUrl.isEmpty()) {
@@ -88,9 +119,9 @@ public class PerfilFragment extends Fragment {
         });
     }
 
-    // Cargar los desafíos completados del usuario
+    // Método para cargar los desafíos completados
     private void loadChallenges(String userId) {
-        DatabaseReference challengesRef = database.getReference("Users").child(userId).child("desafiosCompletados");
+        DatabaseReference challengesRef = database.getReference("Users").child(userId).child("experienciasCompletadas");
 
         challengesRef.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
@@ -103,16 +134,16 @@ public class PerfilFragment extends Fragment {
 
                     // Usar un ArrayAdapter para mostrar los desafíos en el ListView
                     ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, challengesList);
-                    binding.lvDesafiosCompletados.setAdapter(adapter);
+                    binding.lvExperienciasCompletadas.setAdapter(adapter);
                 } else {
                     // Si no hay desafíos, mostrar el mensaje "Ningún desafío completado"
                     ArrayList<String> emptyList = new ArrayList<>();
-                    emptyList.add("Ningún desafío completado");
+                    emptyList.add("Ninguna experiencia completada");
                     ArrayAdapter<String> emptyAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, emptyList);
-                    binding.lvDesafiosCompletados.setAdapter(emptyAdapter);
+                    binding.lvExperienciasCompletadas.setAdapter(emptyAdapter);
                 }
             } else {
-                Toast.makeText(getContext(), "Error al cargar los desafíos", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Error al cargar las experiencias", Toast.LENGTH_SHORT).show();
             }
         });
     }

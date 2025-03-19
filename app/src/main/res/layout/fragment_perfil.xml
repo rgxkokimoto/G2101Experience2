@@ -25,11 +25,11 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tvNombreUsuario"
+        android:id="@+id/tvCorreo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="28dp"
-        android:text="Nombre Usuario"
+        android:text="Correo"
         android:textSize="16dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -38,14 +38,37 @@
         app:layout_constraintTop_toTopOf="@+id/ivPerfil" />
 
 
-    <TextView
-        android:id="@+id/tvDesafios"
+    <EditText
+        android:id="@+id/etNombreUsuario"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.294"
+        app:layout_constraintStart_toEndOf="@id/ivPerfil"
+        app:layout_constraintTop_toBottomOf="@id/tvCorreo"
+        android:layout_marginTop="16dp"
+        android:hint="Nombre de usuario"/>
+
+    <Button
+        android:id="@+id/btnGuardarNombre"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="140dp"
-        android:text="Desafíos"
-        android:textSize="20dp"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/principal"
+        android:text="Guardar Nombre"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.231"
+        app:layout_constraintStart_toEndOf="@+id/ivPerfil"
+        app:layout_constraintTop_toBottomOf="@+id/etNombreUsuario" />
+
+    <TextView
+        android:id="@+id/tvExperiencias"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:text="Experiencias"
         android:textColor="@color/principal"
+        android:textSize="20dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -53,23 +76,25 @@
         app:layout_constraintTop_toBottomOf="@+id/ivPerfil" />
 
     <ListView
-        android:id="@+id/lvDesafiosCompletados"
+        android:id="@+id/lvExperienciasCompletadas"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="0dp"
+        android:layout_marginVertical="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnCerrarSesion"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvDesafios" />
+        app:layout_constraintTop_toBottomOf="@+id/tvExperiencias" />
 
     <Button
         android:id="@+id/btnCerrarSesion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="84dp"
+        android:layout_marginBottom="64dp"
+        android:backgroundTint="@color/rojo_label_Mal"
         android:text="Cerrar Sesión"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:backgroundTint="@color/rojo_label_Mal" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
