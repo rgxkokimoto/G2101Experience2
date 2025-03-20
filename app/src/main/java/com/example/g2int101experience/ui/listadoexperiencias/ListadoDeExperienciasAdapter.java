@@ -48,7 +48,6 @@ public class ListadoDeExperienciasAdapter extends RecyclerView.Adapter<ListadoDe
                 holder.binding.recyclerItemLayout.setBackgroundColor(
                         holder.itemView.getContext().getResources().getColor(R.color.verde_completado)
                 );
-
                 holder.binding.btnCompletarDesafio.setEnabled(false);
             } else {
                 holder.binding.recyclerItemLayout.setBackgroundColor(
@@ -57,18 +56,19 @@ public class ListadoDeExperienciasAdapter extends RecyclerView.Adapter<ListadoDe
                 holder.binding.btnCompletarDesafio.setEnabled(true);
             }
 
+            // Acción de "Ver Más"
             holder.binding.btnVerMas.setOnClickListener(v -> {
                 if (listener != null) {
-                    listener.onItemClick(position, 0);
+                    listener.onItemClick(position, 0); // Ver Más
                 }
             });
 
+            // Acción de "Completar Desafío"
             holder.binding.btnCompletarDesafio.setOnClickListener(v -> {
                 if (listener != null) {
-                    listener.onItemClick(position, 1);
+                    listener.onItemClick(position, 1); // Completar Desafío
                 }
             });
-
         }
     }
 
@@ -93,5 +93,4 @@ public class ListadoDeExperienciasAdapter extends RecyclerView.Adapter<ListadoDe
             this.binding = binding;
         }
     }
-
 }

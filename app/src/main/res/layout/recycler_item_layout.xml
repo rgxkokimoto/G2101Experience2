@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:backgroundTint="@color/principal"
-            android:text="Completar desafío"
+            android:text="Completar experiencia"
             android:textSize="10dp"
             app:cornerRadius="20dp"
             app:layout_constraintBottom_toBottomOf="parent"

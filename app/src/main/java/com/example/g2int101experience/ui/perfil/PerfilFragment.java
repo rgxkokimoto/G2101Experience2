@@ -129,7 +129,10 @@ public class PerfilFragment extends Fragment {
                     // Crear una lista con los desafíos completados
                     ArrayList<String> challengesList = new ArrayList<>();
                     for (DataSnapshot snapshot : task.getResult().getChildren()) {
-                        challengesList.add(snapshot.getKey()); // Agregar el nombre del desafío
+                        String experienciaKey = snapshot.getKey();  // Obtener el nombre del desafío
+                        // Formatear el nombre antes de agregarlo a la lista
+                        String experienciaFormateada = formatNombreExperiencia(experienciaKey);
+                        challengesList.add(experienciaFormateada); // Agregar el nombre formateado
                     }
 
                     // Usar un ArrayAdapter para mostrar los desafíos en el ListView
@@ -147,6 +150,7 @@ public class PerfilFragment extends Fragment {
             }
         });
     }
+
 
     // Abrir la galería para elegir una nueva imagen de perfil
     private void openImageChooser() {
@@ -205,4 +209,11 @@ public class PerfilFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
+
+    // Método para agregar espacios entre mayúsculas
+    private String formatNombreExperiencia(String nombre) {
+        // Añadir un espacio antes de cada letra mayúscula, excepto al principio
+        return nombre.replaceAll("([a-z])([A-Z])", "$1 $2");
+    }
+
 }

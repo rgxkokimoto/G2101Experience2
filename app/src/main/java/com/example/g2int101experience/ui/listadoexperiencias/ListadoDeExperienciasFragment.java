@@ -85,16 +85,19 @@ public class ListadoDeExperienciasFragment extends Fragment implements ListadoDe
         Experiencia experiencia = Objects.requireNonNull(model.getExperienciaLiveData().getValue()).get(position);
 
         if (mode == 0) {
+            // Ver más, navegar al detalle de la experiencia
             Bundle bundle = new Bundle();
             bundle.putString("id", experiencia.getId());
             Navigation.findNavController(requireView()).navigate(R.id.action_listadoDeExperiencias_to_experienciaDetalleFragment, bundle);
         }
         else if (mode == 1) {
-            model.completarDesafio(experiencia.getId());
-            experiencia.setCompletada(true);
-            adapter.notifyItemChanged(position);
+            // Completar experiencia
+            model.completarExperiencia(experiencia.getId()); // Aquí se llama al método de completarExperiencia
+            experiencia.setCompletada(true);  // Cambiar el estado de la experiencia a completada
+            adapter.notifyItemChanged(position);  // Notificar al adapter para que actualice la UI
         }
     }
+
 
 
 
