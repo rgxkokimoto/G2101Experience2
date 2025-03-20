@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.home.HomeFragment"
-    android:layout_marginHorizontal="9dp"
-    >
+    android:layout_marginHorizontal="9dp">
 
     <ImageView
         android:id="@+id/imageView"
@@ -18,29 +17,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-<!--
-Investigando descubri que Usar NestedScrollView es mejor que usar ScrollView
-En condiciones donde hay más desplazamientos unmo un cardview.
--->
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
-        android:layout_height="600dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView"
-        android:layout_marginTop="25dp"
-        >
+        android:layout_marginTop="25dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="10dp"
-            >
+            android:layout_height="wrap_content"
+            android:padding="10dp">
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/tv_mis_desafios"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Mis Desafios"
@@ -50,23 +43,41 @@ En condiciones donde hay más desplazamientos unmo un cardview.
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/home_rv_misRetos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:padding="15dp"
+                android:layout_marginTop="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView">
-            </androidx.recyclerview.widget.RecyclerView>
+                app:layout_constraintTop_toBottomOf="@+id/tv_mis_desafios" />
 
+            <!-- Nueva sección para Desafíos Populares -->
+            <TextView
+                android:id="@+id/tv_desafios_populares"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/populares"
+                android:textColor="@color/principal"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/home_rv_misRetos" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/home_rv_desafios_populares"
+                android:layout_width="match_parent"
+                android:padding="15dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_desafios_populares" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-
     </androidx.core.widget.NestedScrollView>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

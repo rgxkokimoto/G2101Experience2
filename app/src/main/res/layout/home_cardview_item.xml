@@ -5,8 +5,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginTop="10dp"
-    android:layout_marginLeft="4dp"
-    android:layout_marginRight="4dp"
+    android:layout_marginEnd="4dp"
     app:cardCornerRadius="30dp" >
 
     <LinearLayout
@@ -24,8 +23,8 @@
 
             <ImageView
                 android:id="@+id/ivDesafioButton"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
                 android:src="@drawable/btn_desafio_madrid"
 
                 />

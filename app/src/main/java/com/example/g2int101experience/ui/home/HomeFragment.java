@@ -23,10 +23,9 @@ public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
 
-    private ListDesafiosAdapter adapter;
+    private ListDesafiosAdapter misDesafiosAdapter;
+    private ListDesafiosAdapter desafiosPopularesAdapter;
     private HomeViewModel model;
-    //private List<Desafio> userList;
-
 
     @Nullable
     @Override
@@ -41,32 +40,57 @@ public class HomeFragment extends Fragment {
         model = new ViewModelProvider(this).get(HomeViewModel.class);
 
         if(binding != null){
-            RecyclerView recyclerView = binding.homeRvMisRetos;
-            recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
-            adapter = new ListDesafiosAdapter(new ArrayList<>(), (position, mode) -> {
-                Desafio desafio = Objects.requireNonNull(model.getDesafioLiveData().getValue()).get(position);
+            configurarMisDesafios(view);
 
-                Bundle bundle = new Bundle();
-                bundle.putString("nombreDesafio", desafio.getTitulo());
-
-                //getParentFragmentManager().setFragmentResult("datosDesafioParaExperiencias", bundle);
-
-                Navigation.findNavController(view).navigate(R.id.listadoDeExperiencias, bundle);
-            }, model);
-            recyclerView.setAdapter(adapter);
+            configurarDesafiosPopulares(view);
 
             model.getDesafioLiveData().observe(getViewLifecycleOwner(), this::cargarDesafios);
+            model.getDesafiosPopularesLiveData().observe(getViewLifecycleOwner(), this::cargarDesafiosPopulares);
 
             model.cargarDesafios();
+            model.cargarDesafiosPopulares();
         }
+    }
 
+    private void configurarMisDesafios(View view) {
+        RecyclerView recyclerViewMisDesafios = binding.homeRvMisRetos;
+        recyclerViewMisDesafios.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
+
+        misDesafiosAdapter = new ListDesafiosAdapter(new ArrayList<>(), (position, mode) -> {
+            Desafio desafio = Objects.requireNonNull(model.getDesafioLiveData().getValue()).get(position);
+
+            Bundle bundle = new Bundle();
+            bundle.putString("nombreDesafio", desafio.getTitulo());
+
+            Navigation.findNavController(view).navigate(R.id.listadoDeExperiencias, bundle);
+        }, model);
+
+        recyclerViewMisDesafios.setAdapter(misDesafiosAdapter);
+    }
+
+    private void configurarDesafiosPopulares(View view) {
+        RecyclerView recyclerViewPopulares = binding.homeRvDesafiosPopulares;
+        recyclerViewPopulares.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
+
+        desafiosPopularesAdapter = new ListDesafiosAdapter(new ArrayList<>(), (position, mode) -> {
+            Desafio desafio = Objects.requireNonNull(model.getDesafiosPopularesLiveData().getValue()).get(position);
+
+            Bundle bundle = new Bundle();
+            bundle.putString("nombreDesafio", desafio.getTitulo());
+
+            Navigation.findNavController(view).navigate(R.id.listadoDeExperiencias, bundle);
+        }, model);
+
+        recyclerViewPopulares.setAdapter(desafiosPopularesAdapter);
     }
 
     private void cargarDesafios(ArrayList<Desafio> desafios) {
-        adapter.setDesafioList(desafios);
+        misDesafiosAdapter.setDesafioList(desafios);
     }
 
-    //private void setContentView(ConstraintLayout root) {}
+    private void cargarDesafiosPopulares(ArrayList<Desafio> desafiosPopulares) {
+        desafiosPopularesAdapter.setDesafioList(desafiosPopulares);
+    }
 
     @Override
     public void onDestroyView() {
