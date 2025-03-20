@@ -59,4 +59,5 @@
     <string name="aceptar_gestion">Aceptar</string>
     <string name="cancelar_gestion">Cancelar</string>
     <string name="todo" translatable="false">TODO</string>
+    <string name="completar">Completar</string>
 </resources>
