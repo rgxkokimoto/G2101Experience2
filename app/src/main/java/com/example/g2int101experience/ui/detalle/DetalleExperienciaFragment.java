@@ -16,6 +16,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.g2int101experience.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -73,27 +75,36 @@ public class DetalleExperienciaFragment extends Fragment {
 
     private void comprobarEstadoExp(Button btnEstadoExp) {
         if (id != null && !id.isEmpty()) {
-            // Referencia directa a la experiencia
-            DatabaseReference expRef = databaseReference.child(id);
+            // Obtener el UID del usuario actual
+            String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-            expRef.child("completada").addListenerForSingleValueEvent(new ValueEventListener() {
+            // Referencia al nodo 'experienciasCompletadas' del usuario
+            DatabaseReference userExpRef = FirebaseDatabase.getInstance()
+                    .getReference("Users")
+                    .child(uid)
+                    .child("experienciasCompletadas")
+                    .child(id);
+
+            // Verificar si la experiencia está marcada como completada para el usuario
+            userExpRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     Boolean completada = dataSnapshot.getValue(Boolean.class);
 
+                    // Si la experiencia está completada para este usuario
                     if (completada != null && completada) {
                         btnEstadoExp.setEnabled(false);
                         btnEstadoExp.setText("Completada");
                         btnEstadoExp.setAlpha(0.5f);
-
                     } else {
+                        // Si no está completada, habilitar el botón para marcarla como completada
                         btnEstadoExp.setOnClickListener(v -> marcarComoCompletada());
                     }
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-                    // En caso de error, configurar botón por defecto
+                    // En caso de error, mostrar un mensaje
                     Toast.makeText(getContext(), "Error al verificar estado: " + error.getMessage(),
                             Toast.LENGTH_SHORT).show();
                 }
@@ -103,25 +114,39 @@ public class DetalleExperienciaFragment extends Fragment {
         }
     }
 
+
     private void marcarComoCompletada() {
+        // Obtener el ID del usuario autenticado
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String userId = user != null ? user.getUid() : null; // El ID del usuario
 
-        DatabaseReference expRef = databaseReference.child(id);
+        if (userId != null) {
+            // Referencia a la base de datos para "Users"
+            DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("Users");
 
-        expRef.child("completada").setValue(true)
-                .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(getContext(), "¡Experiencia completada!", Toast.LENGTH_SHORT).show();
+            // Añadir la experiencia al nodo "experienciasCompletadas" del usuario
+            usersRef.child(userId).child("experienciasCompletadas").child(id).setValue(true)
+                    .addOnSuccessListener(aVoid -> {
+                        // Éxito al añadir la experiencia a "experienciasCompletadas"
+                        Toast.makeText(getContext(), "¡Experiencia completada!", Toast.LENGTH_SHORT).show();
 
-                    Button btnEstadoExp = requireView().findViewById(R.id.btnEstadoDesafio);
-                    btnEstadoExp.setEnabled(false);
-                    btnEstadoExp.setText("Completada");
-                    btnEstadoExp.setAlpha(0.5f);
-
-                })
-                .addOnFailureListener(e -> Toast.makeText(getContext(), "Error al completar: " + e.getMessage(),
-                        Toast.LENGTH_SHORT).show());
-
-
+                        // Actualizar el estado del botón para indicar que la experiencia fue completada
+                        Button btnEstadoExp = requireView().findViewById(R.id.btnEstadoDesafio);
+                        btnEstadoExp.setEnabled(false);
+                        btnEstadoExp.setText("Completada");
+                        btnEstadoExp.setAlpha(0.5f);
+                    })
+                    .addOnFailureListener(e -> {
+                        // Manejo de error si no se pudo añadir a "experienciasCompletadas"
+                        Toast.makeText(getContext(), "Error al completar la experiencia: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    });
+        } else {
+            // Si no hay usuario autenticado
+            Toast.makeText(getContext(), "No hay usuario autenticado", Toast.LENGTH_SHORT).show();
+        }
     }
+
+
 
     private void cargarDatosExperiencia(TextView tvTitulo, ImageView ivExpr, TextView tVdescripcion) {
         if (id != null && !id.isEmpty()) {

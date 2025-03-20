@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|top"
         android:layout_marginStart="16dp"
-        android:text="Museo de las Ilusiones"
+        android:text="Cargando..."
         android:textColor="#1FCE7D"
         android:textSize="29sp"
         android:textStyle="bold"
@@ -48,8 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal|top"
-            android:scaleType="centerCrop"
-            android:src="@drawable/expmuseum"/>
+            android:scaleType="centerCrop"/>
 
     </FrameLayout>
     <TextView
@@ -82,7 +81,7 @@
             android:background="#F4F2F2"
             android:padding="16dp"
             android:scrollbars="vertical"
-            android:text="EI Museo de las Ilusiones de Madrid ofrece experiencias visuales, sensoriales y educativas que desafían la percepción, con exhibiciones interactivas para todas las edades. "
+            android:text="Cargando..."
             android:textColor="#000000"
             android:textSize="23sp"/>
     </ScrollView>

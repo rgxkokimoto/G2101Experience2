@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -95,6 +96,7 @@ public class ListadoDeExperienciasFragment extends Fragment implements ListadoDe
             model.completarExperiencia(experiencia.getId()); // Aquí se llama al método de completarExperiencia
             experiencia.setCompletada(true);  // Cambiar el estado de la experiencia a completada
             adapter.notifyItemChanged(position);  // Notificar al adapter para que actualice la UI
+            Toast.makeText(getContext(), "¡Experiencia completada!", Toast.LENGTH_SHORT).show();
         }
     }
 
