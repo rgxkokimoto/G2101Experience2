@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.g2int101experience.databinding.ActivityRegistroBinding;
@@ -25,6 +26,12 @@ import com.google.firebase.auth.FirebaseAuth;
         binding = ActivityRegistroBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.hide();
+        }
 
         binding.editTextText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
